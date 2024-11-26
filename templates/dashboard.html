@@ -1,20 +1,35 @@
 <!-- templates/dashboard.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <h3>Your Stock Items:</h3>
-    <ul>
-        {% for item in stock_items %}
-            <li>{{ item.name }} - {{ item.quantity }} 
-                <a href="{{ url_for('update_stock', id=item.id) }}">Update</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('add_stock') }}">Add New Stock</a><br>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <div class="container">
+        <header>
+            <h1>Your Stock Dashboard</h1>
+            <p>Manage your stock items efficiently</p>
+        </header>
+
+        <h3>Your Stock Items:</h3>
+        <ul>
+            {% for item in stock_items %}
+                <li>
+                    {{ item.name }} - {{ item.quantity }}
+                    <a href="{{ url_for('update_stock', id=item.id) }}">Update</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ url_for('add_stock') }}">Add New Stock</a><br>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="container-footer">
+        <p>&copy; 2024 Stock Management App</p>
+    </div>
 </body>
 </html>
