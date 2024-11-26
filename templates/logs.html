@@ -1,29 +1,16 @@
+<!-- templates/login.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stock Logs</title>
+    <title>Login</title>
 </head>
 <body>
-    <h1>Stock Action Logs</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Action</th>
-                <th>Item</th>
-                <th>User</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for log in logs %}
-            <tr>
-                <td>{{ log.action }}</td>
-                <td>{{ log.stock_item.name }}</td>
-                <td>{{ log.user.username }}</td>
-                <td>{{ log.timestamp }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Login</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
 </body>
 </html>
