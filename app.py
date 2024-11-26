@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -47,7 +47,25 @@ def login():
         if user:
             session['user_id'] = user.id
             return redirect(url_for('stock'))
+        else:
+            return "Invalid credentials, please try again."
     return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Check if user already exists
+        if User.query.filter_by(username=username).first():
+            return "User already exists. Try a different username."
+
+        new_user = User(username=username, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html')
 
 @app.route('/stock', methods=['GET', 'POST'])
 def stock():
@@ -56,13 +74,17 @@ def stock():
     
     if request.method == 'POST':
         item_name = request.form['item_name']
-        quantity = request.form['quantity']
+        quantity = int(request.form['quantity'])
         action = request.form['action']
         
         # Handle stock actions
         if action == 'add':
-            new_stock = Stock(item_name=item_name, quantity=quantity)
-            db.session.add(new_stock)
+            existing_stock = Stock.query.filter_by(item_name=item_name).first()
+            if existing_stock:
+                existing_stock.quantity += quantity
+            else:
+                new_stock = Stock(item_name=item_name, quantity=quantity)
+                db.session.add(new_stock)
             db.session.commit()
             log_action(session['user_id'], f'Added {quantity} of {item_name}')
         elif action == 'remove':
