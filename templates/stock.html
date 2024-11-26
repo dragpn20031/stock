@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Stock</title>
+</head>
+<body>
+    <h1>Manage Stock</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Matériel</th>
+                <th>Quantity</th>
+                <th>Pack Size</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in stock_items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.pack_size }}</td>
+                <td>
+                    <form action="/update_stock/{{ item.id }}/decrement/{{ item.pack_size }}" method="POST" style="display:inline;">
+                        <button type="submit">-1 Pack</button>
+                    </form>
+                    <form action="/update_stock/{{ item.id }}/increment/{{ item.pack_size }}" method="POST" style="display:inline;">
+                        <button type="submit">+1 Pack</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/view_logs">View Stock Logs</a>
+</body>
+</html>
