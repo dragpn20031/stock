@@ -1,0 +1,15 @@
+<!-- templates/update_stock.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Stock</title>
+</head>
+<body>
+    <h1>Update Stock Item</h1>
+    <form method="POST">
+        <input type="number" name="quantity" value="{{ stock_item.quantity }}" required>
+        <button type="submit">Update Quantity</button>
+    </form>
+    <br><a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
