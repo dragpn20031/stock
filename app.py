@@ -26,10 +26,12 @@ class Log(db.Model):
     action = db.Column(db.String(120), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Create database tables before the first request or app run
-@app.before_first_request
-def setup():
-    db.create_all()
+# Use before_request for initializing database
+@app.before_request
+def before_request():
+    # Make sure the tables are created if they don't exist yet
+    with app.app_context():
+        db.create_all()
 
 # Routes
 @app.route('/')
@@ -81,7 +83,7 @@ def log_action(user_id, action):
     db.session.commit()
 
 if __name__ == '__main__':
-    # Make sure the database tables are created when app starts
+    # Create all tables when the app starts
     with app.app_context():
         db.create_all()
         
